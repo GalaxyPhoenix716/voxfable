@@ -1,5 +1,5 @@
 name: voxfable
-description: "A new Flutter project."
+description: "An AI-powered Story Buddy & Interactive Quiz mobile app for children, featuring ElevenLabs Text-to-Speech and dynamic gamified lessons."
 publish_to: 'none'
 
 version: 1.0.0+1
