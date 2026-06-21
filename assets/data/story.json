@@ -1,0 +1,55 @@
+{
+  "story_text": "Once upon a time, a clever little robot named Pip lost his shiny blue gear in the Whispering Woods. He searched under the glowing mushrooms, climbed the tall brass trees, and even asked the friendly copper owls. Finally, near a sparkling silver stream, he spotted it! A mischievous bluebird was using it to decorate its nest. With a polite squeak, Pip traded a shiny yellow marble for his gear, and his clockwork heart was happy once more.",
+  "quiz_questions": [
+    {
+      "question": "What was the name of the clever little robot?",
+      "options": [
+        "Pip",
+        "Chip",
+        "Bolt",
+        "Rusty"
+      ],
+      "answer": "Pip"
+    },
+    {
+      "question": "What did Pip lose in the Whispering Woods?",
+      "options": [
+        "A golden key",
+        "A shiny blue gear",
+        "A silver screw",
+        "A red button"
+      ],
+      "answer": "A shiny blue gear"
+    },
+    {
+      "question": "Where did Pip find his lost gear?",
+      "options": [
+        "Under a glowing mushroom",
+        "In a copper owl's nest",
+        "Near a sparkling silver stream",
+        "On top of a brass tree"
+      ],
+      "answer": "Near a sparkling silver stream"
+    },
+    {
+      "question": "What did Pip trade with the bluebird for his gear?",
+      "options": [
+        "A copper coin",
+        "A shiny yellow marble",
+        "A sweet forest berry",
+        "A silver screw"
+      ],
+      "answer": "A shiny yellow marble"
+    },
+    {
+      "question": "How did Pip feel at the end of the story?",
+      "options": [
+        "Scared",
+        "Sleepy",
+        "Happy",
+        "Angry"
+      ],
+      "answer": "Happy"
+    }
+  ]
+}
