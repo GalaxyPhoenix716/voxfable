@@ -15,10 +15,16 @@ class AudioCacheService {
   Future<File?> getCachedAudio(String text) async {
     final path = await _getCacheKey(text);
     final file = File(path);
-    if(await file.exists()) {
+    if (await file.exists()) {
       return file;
     }
 
     return null;
+  }
+
+  Future<File> saveAudioToCache(String text, List<int> audioBytes) async {
+    final path = await _getCacheKey(text);
+    final file = File(path);
+    return await file.writeAsBytes(audioBytes);
   }
 }

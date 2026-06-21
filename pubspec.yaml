@@ -23,6 +23,7 @@ dependencies:
   confetti: ^0.7.0
   flutter_animate: ^4.5.0
   google_fonts: ^6.2.1
+  crypto: ^3.0.7
 
 dev_dependencies:
   flutter_test:
