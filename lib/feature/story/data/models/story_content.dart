@@ -1,8 +1,8 @@
-import 'package:voxfable/feature/story/data/models/quiz_questions.dart';
+import 'package:voxfable/feature/story/data/models/quiz_question.dart';
 
 class StoryContent {
   final String storyText;
-  final List<QuizQuestions> quizQuestions;
+  final List<QuizQuestion> quizQuestions;
 
   StoryContent({required this.storyText, required this.quizQuestions});
 
@@ -11,7 +11,7 @@ class StoryContent {
     return StoryContent(
       storyText: json['story_text'] as String,
       quizQuestions: questionsList
-          .map((q) => QuizQuestions.fromJson(q as Map<String, dynamic>))
+          .map((q) => QuizQuestion.fromJson(q as Map<String, dynamic>))
           .toList(),
     );
   }
