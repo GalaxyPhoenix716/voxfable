@@ -18,11 +18,13 @@ class ElevenLabsService {
       _cacheService = cacheService ?? AudioCacheService();
 
   Future<File> fetchTTS(String text) async {
+    //check if audio exists in cache
     final cachedFile = await _cacheService.getCachedAudio(text);
     if (cachedFile != null) {
       return cachedFile;
     }
 
+    //if not then call api
     final response = await _dio.post<List<int>>(
       _apiUrl,
       options: Options(
@@ -35,7 +37,8 @@ class ElevenLabsService {
         'voice_settings': {'stability': 0.75, 'similarity_boost': 0.85},
       },
     );
-
+    
+    //cache the audio or throw error :)
     if (response.statusCode == 200 && response.data != null) {
       return await _cacheService.saveAudioToCache(text, response.data!);
     } else {
