@@ -25,7 +25,6 @@
       "question": "Where did Pip find his lost gear?",
       "options": [
         "Under a glowing mushroom",
-        "In a copper owl's nest",
         "Near a sparkling silver stream",
         "On top of a brass tree"
       ],
@@ -47,7 +46,8 @@
         "Scared",
         "Sleepy",
         "Happy",
-        "Angry"
+        "Angry",
+        "Tired"
       ],
       "answer": "Happy"
     }
