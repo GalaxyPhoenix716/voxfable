@@ -7,7 +7,6 @@ import 'package:voxfable/feature/story/view/widgets/quiz_bottom_progress.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_mascot_header.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
-import 'peblo_mascot.dart';
 
 class QuizView extends ConsumerStatefulWidget {
   const QuizView({super.key});
