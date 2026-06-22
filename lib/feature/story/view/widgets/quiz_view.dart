@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:voxfable/feature/story/view/screens/victory_screen.dart';
 import 'package:voxfable/feature/story/view/widgets/option_card.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_bottom_progress.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_mascot_header.dart';
-import 'package:voxfable/feature/story/view/widgets/victory_screen.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
@@ -190,7 +190,7 @@ class _QuizViewState extends ConsumerState<QuizView>
       children: [
         QuizMascotHeader(buddyState: state.buddyState),
 
-        const SizedBox(height: 12),
+        const Spacer(),
 
         SizedBox(
           height: 480,
