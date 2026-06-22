@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voxfable/feature/story/view/widgets/read_story_button.dart';
 import '../widgets/story_overlay.dart';
+import '../widgets/quiz_view.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
@@ -35,10 +36,30 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen for answer correctness changes to play confetti
+    // Listen for answer correctness changes to play confetti & handle page transitions
     ref.listen<StoryState>(storyViewModelProvider, (previous, next) {
       if (next.quizAnswerStatus == QuizAnswerStatus.correct) {
         _confettiController.play();
+      }
+
+      if (next.showQuiz && !(previous?.showQuiz ?? false)) {
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            1,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeInOutCubic,
+          );
+        }
+      }
+
+      if (!next.showQuiz && (previous?.showQuiz ?? false)) {
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            0,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeInOutCubic,
+          );
+        }
       }
     });
 
@@ -228,7 +249,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                                           fit: BoxFit.fill,
                                         ),
                                       ),
-                                      
+
                                       //text overlay
                                       Positioned(
                                         top: (H * 0.4) * 0.07,
@@ -255,31 +276,9 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                     ),
                   ),
 
-                  // Page 2: Quiz Screen Placeholder
+                  // Page 2: Quiz Screen
                   const SafeArea(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.psychology_alt_rounded,
-                            size: 80,
-                            color: Colors.white70,
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Quiz Screen\n(Mascot & Cards Coming Soon!)",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: QuizView(),
                   ),
                 ],
               ),

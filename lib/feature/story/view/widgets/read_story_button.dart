@@ -17,8 +17,8 @@ class ReadStoryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(32),
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF9E47FF), // Bright purple
-            Color(0xFF6F2BC2), // Dark violet
+            Color(0xFF9E47FF),
+            Color(0xFF6F2BC2),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../data/models/story_content.dart';
@@ -139,8 +141,14 @@ class StoryViewModel extends _$StoryViewModel {
         }
       });
 
-      await player.play(DeviceFileSource(audioFile.path));
+      if (Platform.isWindows) {
+        final fileUri = 'file:///${audioFile.path.replaceAll('\\', '/')}';
+        await player.play(UrlSource(fileUri));
+      } else {
+        await player.play(DeviceFileSource(audioFile.path));
+      }
     } catch (e) {
+      debugPrint("Error during story playback: $e");
       _cancelSubscriptions();
       state = state.copyWith(
         audioState: AudioState.error,
