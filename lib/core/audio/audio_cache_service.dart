@@ -16,7 +16,14 @@ class AudioCacheService {
     final path = await _getCacheKey(text);
     final file = File(path);
     if (await file.exists()) {
-      return file;
+      final length = await file.length();
+      if (length > 0) {
+        return file;
+      } else {
+        try {
+          await file.delete();
+        } catch (_) {}
+      }
     }
 
     return null;

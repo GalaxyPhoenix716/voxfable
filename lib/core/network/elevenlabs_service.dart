@@ -8,7 +8,7 @@ class ElevenLabsService {
   final AudioCacheService _cacheService;
 
   static final String _apiKey = dotenv.env['ELEVENLABS_API_KEY']!;
-  static const String _voiceId = 'rv30Fd6w5bnbL0kHzWlr'; //alice
+  static const String _voiceId = 'Xb7hH8MSUJpSbSDYk0k2'; // Alice (premade)
   static const String _modelId = 'eleven_multilingual_v2';
   static const String _apiUrl =
       'https://api.elevenlabs.io/v1/text-to-speech/$_voiceId';
@@ -28,7 +28,7 @@ class ElevenLabsService {
     final response = await _dio.post<List<int>>(
       _apiUrl,
       options: Options(
-        headers: {'xi_api_key': _apiKey, 'Content-Type': 'application/json'},
+        headers: {'xi-api-key': _apiKey, 'Content-Type': 'application/json'},
         responseType: ResponseType.bytes,
       ),
       data: {
