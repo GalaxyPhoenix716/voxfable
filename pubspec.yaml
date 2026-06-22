@@ -1,5 +1,5 @@
 name: voxfable
-description: "An AI-powered Story Buddy & Interactive Quiz mobile app for children, featuring ElevenLabs Text-to-Speech and dynamic gamified lessons."
+description: "VoxFable is an AI-powered Story Buddy & Interactive Quiz mobile app designed for children. It features ElevenLabs Text-to-Speech narration, real-time word highlighting, an animated mascot with dynamic feedback states, gamified quiz cards with dynamic option sizing, and a beautiful parallax scrolling background."
 publish_to: 'none'
 
 version: 1.0.0+1
