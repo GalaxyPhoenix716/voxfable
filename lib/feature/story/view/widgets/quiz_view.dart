@@ -7,7 +7,6 @@ import 'package:voxfable/feature/story/view/widgets/quiz_mascot_header.dart';
 import 'package:voxfable/feature/story/view/widgets/victory_screen.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
-import 'peblo_mascot.dart';
 
 class QuizView extends ConsumerStatefulWidget {
   const QuizView({super.key});
@@ -103,19 +102,17 @@ class _QuizViewState extends ConsumerState<QuizView>
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
       child: Column(
         children: [
-          // Header Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Circular Back Arrow (White circle, dark icon)
               GestureDetector(
                 onTap: () => notifier.reset(),
                 child: Container(
                   width: 44,
                   height: 44,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
@@ -131,7 +128,7 @@ class _QuizViewState extends ConsumerState<QuizView>
                   ),
                 ),
               ),
-              // Score Indicator Pill (White background, star icon, score)
+
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -204,8 +201,8 @@ class _QuizViewState extends ConsumerState<QuizView>
             isDisabled: true,
             numberOfCardsDisplayed: questions.length > 2 ? 3 : questions.length,
             padding: const EdgeInsets.only(bottom: 28, left: 4, right: 4),
-            backCardOffset: const Offset(0, 18),
-            scale: 0.92,
+            backCardOffset: const Offset(0, 25),
+            scale: 0.80,
             cardBuilder: (context, index, percentX, percentY) {
               final question = questions[index];
               return _buildQuestionCard(
@@ -281,7 +278,6 @@ class _QuizViewState extends ConsumerState<QuizView>
           ),
           const SizedBox(height: 10),
 
-          // Question Text
           Text(
             question.question,
             textAlign: TextAlign.center,
@@ -295,7 +291,6 @@ class _QuizViewState extends ConsumerState<QuizView>
           ),
           const SizedBox(height: 10),
 
-          // Options List
           if (isActive)
             Column(
               children: List.generate(question.options.length, (optIdx) {
