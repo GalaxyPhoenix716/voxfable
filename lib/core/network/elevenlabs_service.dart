@@ -8,7 +8,7 @@ class ElevenLabsService {
   final AudioCacheService _cacheService;
 
   static final String _apiKey = dotenv.env['ELEVENLABS_API_KEY']!;
-  static const String _voiceId = '';
+  static const String _voiceId = 'rv30Fd6w5bnbL0kHzWlr'; //alice
   static const String _modelId = 'eleven_multilingual_v2';
   static const String _apiUrl =
       'https://api.elevenlabs.io/v1/text-to-speech/$_voiceId';
