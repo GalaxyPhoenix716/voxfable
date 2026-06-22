@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../data/models/story_content.dart';
@@ -21,12 +21,20 @@ AudioPlayer audioPlayer(Ref ref) {
   return player;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class StoryViewModel extends _$StoryViewModel {
+  StreamSubscription<PlayerState>? _audioPlayerSubscription;
+
   @override
   StoryState build() {
-    //initializing state
+    //initializing content
+    ref.watch(audioPlayerProvider);
+
     Future.microtask(() => loadStoryContent());
+
+    ref.onDispose(() {
+      _audioPlayerSubscription?.cancel();
+    });
 
     return StoryState(
       audioState: AudioState.idle,

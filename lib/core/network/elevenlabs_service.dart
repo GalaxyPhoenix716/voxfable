@@ -9,7 +9,7 @@ class ElevenLabsService {
 
   static final String _apiKey = dotenv.env['ELEVENLABS_API_KEY']!;
   static const String _voiceId = '';
-  static const String _modelId = 'eleven_v3';
+  static const String _modelId = 'eleven_multilingual_v2';
   static const String _apiUrl =
       'https://api.elevenlabs.io/v1/text-to-speech/$_voiceId';
 
@@ -37,7 +37,7 @@ class ElevenLabsService {
         'voice_settings': {'stability': 0.75, 'similarity_boost': 0.85},
       },
     );
-    
+
     //cache the audio or throw error :)
     if (response.statusCode == 200 && response.data != null) {
       return await _cacheService.saveAudioToCache(text, response.data!);
