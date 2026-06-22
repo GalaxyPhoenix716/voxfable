@@ -20,6 +20,7 @@ class StoryState {
   final String? errorMessage;
   final bool showQuiz;
   final int activeWordIndex;
+  final int score;
 
   StoryState({
     required this.audioState,
@@ -31,6 +32,7 @@ class StoryState {
     this.errorMessage,
     required this.showQuiz,
     this.activeWordIndex = -1,
+    this.score = 100,
   });
 
   QuizQuestion? get currentQuestion {
@@ -52,6 +54,7 @@ class StoryState {
     String? errorMessage,
     bool? showQuiz,
     int? activeWordIndex,
+    int? score,
   }) {
     return StoryState(
       audioState: audioState ?? this.audioState,
@@ -63,6 +66,7 @@ class StoryState {
       errorMessage: errorMessage ?? this.errorMessage,
       showQuiz: showQuiz ?? this.showQuiz,
       activeWordIndex: activeWordIndex ?? this.activeWordIndex,
+      score: score ?? this.score,
     );
   }
 }

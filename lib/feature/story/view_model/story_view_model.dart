@@ -190,6 +190,7 @@ class StoryViewModel extends _$StoryViewModel {
       state = state.copyWith(
         quizAnswerStatus: QuizAnswerStatus.correct,
         buddyState: BuddyState.happy,
+        score: state.score + 25,
       );
       HapticFeedback.heavyImpact();
 
@@ -205,7 +206,10 @@ class StoryViewModel extends _$StoryViewModel {
           );
         } else {
           //all questions are over
-          state = state.copyWith(buddyState: BuddyState.happy);
+          state = state.copyWith(
+            buddyState: BuddyState.happy,
+            quizAnswerStatus: QuizAnswerStatus.idle,
+          );
         }
       });
     } else {
@@ -241,6 +245,7 @@ class StoryViewModel extends _$StoryViewModel {
       storyContent: state.storyContent,
       showQuiz: false,
       activeWordIndex: -1,
+      score: 100,
     );
   }
 
