@@ -19,6 +19,7 @@ class StoryState {
   final File? cachedAudioFile;
   final String? errorMessage;
   final bool showQuiz;
+  final int activeWordIndex;
 
   StoryState({
     required this.audioState,
@@ -29,6 +30,7 @@ class StoryState {
     this.cachedAudioFile,
     this.errorMessage,
     required this.showQuiz,
+    this.activeWordIndex = -1,
   });
 
   QuizQuestion? get currentQuestion {
@@ -49,6 +51,7 @@ class StoryState {
     File? cachedAudioFile,
     String? errorMessage,
     bool? showQuiz,
+    int? activeWordIndex,
   }) {
     return StoryState(
       audioState: audioState ?? this.audioState,
@@ -59,6 +62,7 @@ class StoryState {
       cachedAudioFile: cachedAudioFile ?? this.cachedAudioFile,
       errorMessage: errorMessage ?? this.errorMessage,
       showQuiz: showQuiz ?? this.showQuiz,
+      activeWordIndex: activeWordIndex ?? this.activeWordIndex,
     );
   }
 }

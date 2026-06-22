@@ -24,6 +24,9 @@ AudioPlayer audioPlayer(Ref ref) {
 @Riverpod(keepAlive: true)
 class StoryViewModel extends _$StoryViewModel {
   StreamSubscription<PlayerState>? _audioPlayerSubscription;
+  StreamSubscription<Duration>? _positionSubscription;
+  StreamSubscription<Duration>? _durationSubscription;
+  Duration? _totalDuration;
 
   @override
   StoryState build() {
@@ -33,7 +36,7 @@ class StoryViewModel extends _$StoryViewModel {
     Future.microtask(() => loadStoryContent());
 
     ref.onDispose(() {
-      _audioPlayerSubscription?.cancel();
+      _cancelSubscriptions();
     });
 
     return StoryState(
@@ -41,7 +44,18 @@ class StoryViewModel extends _$StoryViewModel {
       quizAnswerStatus: QuizAnswerStatus.idle,
       buddyState: BuddyState.idle,
       showQuiz: false,
+      activeWordIndex: -1,
     );
+  }
+
+  void _cancelSubscriptions() {
+    _audioPlayerSubscription?.cancel();
+    _audioPlayerSubscription = null;
+    _positionSubscription?.cancel();
+    _positionSubscription = null;
+    _durationSubscription?.cancel();
+    _durationSubscription = null;
+    _totalDuration = null;
   }
 
   //function to fetch story (mimics fetching from db)
@@ -73,6 +87,7 @@ class StoryViewModel extends _$StoryViewModel {
       audioState: AudioState.loading,
       buddyState: BuddyState.thinking,
       errorMessage: null,
+      activeWordIndex: -1,
     );
 
     try {
@@ -87,30 +102,50 @@ class StoryViewModel extends _$StoryViewModel {
         buddyState: BuddyState.talking,
       );
 
-      final subscription = player.onPlayerStateChanged.listen((playerState) {
+      _cancelSubscriptions();
+
+      final words = story.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+      final totalWords = words.length;
+
+      _audioPlayerSubscription = player.onPlayerStateChanged.listen((playerState) {
         if (playerState == PlayerState.completed) {
           onAudioFinished();
         }
       });
 
-      ref.onDispose(() => subscription.cancel());
+      _durationSubscription = player.onDurationChanged.listen((duration) {
+        _totalDuration = duration;
+      });
+
+      _positionSubscription = player.onPositionChanged.listen((position) {
+        final totalDur = _totalDuration;
+        if (totalDur != null && totalDur.inMilliseconds > 0 && totalWords > 0) {
+          final progress = position.inMilliseconds / totalDur.inMilliseconds;
+          final activeIndex = (totalWords * progress).floor().clamp(0, totalWords - 1);
+          state = state.copyWith(activeWordIndex: activeIndex);
+        }
+      });
 
       await player.play(DeviceFileSource(audioFile.path));
     } catch (e) {
+      _cancelSubscriptions();
       state = state.copyWith(
         audioState: AudioState.error,
         buddyState: BuddyState.idle,
         errorMessage: "Couldn't fetch voice",
+        activeWordIndex: -1,
       );
     }
   }
 
   //just a helper for clean code
   void onAudioFinished() {
+    _cancelSubscriptions();
     state = state.copyWith(
       audioState: AudioState.completed,
       buddyState: BuddyState.idle,
       showQuiz: true,
+      activeWordIndex: -1,
     );
   }
 
@@ -160,6 +195,7 @@ class StoryViewModel extends _$StoryViewModel {
 
   void reset() {
     ref.read(audioPlayerProvider).stop();
+    _cancelSubscriptions();
     state = StoryState(
       audioState: AudioState.idle,
       quizAnswerStatus: QuizAnswerStatus.idle,
@@ -167,6 +203,7 @@ class StoryViewModel extends _$StoryViewModel {
       currentQuestionIndex: 0,
       storyContent: state.storyContent,
       showQuiz: false,
+      activeWordIndex: -1,
     );
   }
 }
