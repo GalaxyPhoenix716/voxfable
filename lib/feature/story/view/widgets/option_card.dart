@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voxfable/feature/story/data/models/story_state.dart';
+import 'package:voxfable/feature/story/data/repos/story_state.dart';
 
 class OptionCard extends StatefulWidget {
   final int index;

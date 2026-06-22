@@ -5,7 +5,7 @@ import 'package:voxfable/feature/story/view/screens/victory_screen.dart';
 import 'package:voxfable/feature/story/view/widgets/option_card.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_bottom_progress.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_mascot_header.dart';
-import '../../data/models/story_state.dart';
+import '../../data/repos/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
 class QuizView extends ConsumerStatefulWidget {

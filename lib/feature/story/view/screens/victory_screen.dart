@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voxfable/feature/story/data/models/story_state.dart';
+import 'package:voxfable/feature/story/data/repos/story_state.dart';
 import 'package:voxfable/feature/story/view/widgets/peblo_mascot.dart';
 import 'package:voxfable/feature/story/view_model/story_view_model.dart';
 

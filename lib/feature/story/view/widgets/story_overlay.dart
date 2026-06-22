@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/models/story_state.dart';
+import '../../data/repos/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
 class StoryOverlay extends ConsumerStatefulWidget {

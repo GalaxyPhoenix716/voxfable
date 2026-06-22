@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../data/models/story_content.dart';
-import '../data/models/story_state.dart';
+import '../data/repos/story_state.dart';
 import '../../../core/network/elevenlabs_service.dart';
 
 part 'story_view_model.g.dart';

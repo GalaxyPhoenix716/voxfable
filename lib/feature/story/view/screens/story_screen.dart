@@ -6,7 +6,7 @@ import 'package:voxfable/feature/story/view/widgets/read_story_button.dart';
 import 'package:voxfable/feature/story/view/widgets/story_book_widget.dart';
 import '../widgets/quiz_view.dart';
 import '../widgets/peblo_mascot.dart';
-import '../../data/models/story_state.dart';
+import '../../data/repos/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
 class StoryScreen extends ConsumerStatefulWidget {

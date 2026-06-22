@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../data/models/story_state.dart';
+import '../../data/repos/story_state.dart';
 
 class PebloMascot extends StatefulWidget {
   final BuddyState state;
