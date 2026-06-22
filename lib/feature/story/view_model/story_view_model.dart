@@ -104,8 +104,7 @@ class StoryViewModel extends _$StoryViewModel {
 
       _cancelSubscriptions();
 
-      final words = story.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
-      final totalWords = words.length;
+      List<WordTimestamp> wordTimestamps = [];
 
       _audioPlayerSubscription = player.onPlayerStateChanged.listen((playerState) {
         if (playerState == PlayerState.completed) {
@@ -115,14 +114,28 @@ class StoryViewModel extends _$StoryViewModel {
 
       _durationSubscription = player.onDurationChanged.listen((duration) {
         _totalDuration = duration;
+        if (duration.inMilliseconds > 0) {
+          wordTimestamps = _calculateWordTimestamps(story, duration);
+        }
       });
 
       _positionSubscription = player.onPositionChanged.listen((position) {
         final totalDur = _totalDuration;
-        if (totalDur != null && totalDur.inMilliseconds > 0 && totalWords > 0) {
-          final progress = position.inMilliseconds / totalDur.inMilliseconds;
-          final activeIndex = (totalWords * progress).floor().clamp(0, totalWords - 1);
-          state = state.copyWith(activeWordIndex: activeIndex);
+        if (wordTimestamps.isEmpty && totalDur != null && totalDur.inMilliseconds > 0) {
+          wordTimestamps = _calculateWordTimestamps(story, totalDur);
+        }
+
+        if (wordTimestamps.isNotEmpty) {
+          int activeIndex = -1;
+          for (final wt in wordTimestamps) {
+            if (position >= wt.start && position < wt.end) {
+              activeIndex = wt.index;
+              break;
+            }
+          }
+          if (activeIndex != -1 && activeIndex != state.activeWordIndex) {
+            state = state.copyWith(activeWordIndex: activeIndex);
+          }
         }
       });
 
@@ -206,4 +219,57 @@ class StoryViewModel extends _$StoryViewModel {
       activeWordIndex: -1,
     );
   }
+
+  List<WordTimestamp> _calculateWordTimestamps(String text, Duration actualDuration) {
+    final words = text.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    final List<double> relativeDurations = [];
+    
+    const double charWeight = 42.0;       //base ms per character
+    const double commaPause = 400.0;      //pause for commas and semicolons
+    const double sentencePause = 800.0;   //pause for periods and exclamation marks
+    const double wordGap = 80.0;          //basic space between spoken words
+
+    for (final word in words) {
+      double duration = word.length * charWeight;
+      
+      if (word.endsWith(',') || word.endsWith(';') || word.endsWith(':')) {
+        duration += commaPause;
+      } else if (word.endsWith('.') || word.endsWith('!') || word.endsWith('?')) {
+        duration += sentencePause;
+      }
+      duration += wordGap;
+      relativeDurations.add(duration);
+    }
+
+    final double totalRelative = relativeDurations.fold(0.0, (sum, d) => sum + d);
+    if (totalRelative == 0.0) return [];
+
+    final double scale = actualDuration.inMilliseconds / totalRelative;
+    final List<WordTimestamp> timestamps = [];
+    double currentMs = 0.0;
+
+    for (int i = 0; i < words.length; i++) {
+      final double durationMs = relativeDurations[i] * scale;
+      timestamps.add(WordTimestamp(
+        index: i,
+        start: Duration(milliseconds: currentMs.round()),
+        end: Duration(milliseconds: (currentMs + durationMs).round()),
+      ));
+      currentMs += durationMs;
+    }
+
+    return timestamps;
+  }
+}
+
+class WordTimestamp {
+  final int index;
+  final Duration start;
+  final Duration end;
+
+  WordTimestamp({
+    required this.index,
+    required this.start,
+    required this.end,
+  });
 }
