@@ -32,7 +32,6 @@ class _QuizViewState extends ConsumerState<QuizView> {
     final state = ref.watch(storyViewModelProvider);
     final notifier = ref.read(storyViewModelProvider.notifier);
 
-    // Listen for state changes to reset selected option
     ref.listen<StoryState>(storyViewModelProvider, (previous, next) {
       if (next.currentQuestionIndex != previous?.currentQuestionIndex ||
           (next.quizAnswerStatus == QuizAnswerStatus.idle &&
@@ -47,14 +46,16 @@ class _QuizViewState extends ConsumerState<QuizView> {
     final currentIdx = state.currentQuestionIndex;
     final question = state.currentQuestion;
 
-    // Detect victory: on the last question, after answering correctly and returning to idle status
-    final isVictory = question != null &&
+    final isVictory =
+        question != null &&
         currentIdx == totalQuestions - 1 &&
         state.buddyState == BuddyState.happy &&
         state.quizAnswerStatus == QuizAnswerStatus.idle &&
         _selectedOption == null;
 
-    final progress = totalQuestions > 0 ? (currentIdx + 1) / totalQuestions : 0.0;
+    final progress = totalQuestions > 0
+        ? (currentIdx + 1) / totalQuestions
+        : 0.0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
@@ -78,7 +79,7 @@ class _QuizViewState extends ConsumerState<QuizView> {
                         color: Colors.black26,
                         blurRadius: 4,
                         offset: const Offset(0, 2),
-                      )
+                      ),
                     ],
                   ),
                   child: const Icon(
@@ -100,16 +101,26 @@ class _QuizViewState extends ConsumerState<QuizView> {
                 ),
               // Score Tracker
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6F2BC2),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFFB39DDB), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFFB39DDB),
+                    width: 1.5,
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.star_rounded, color: Colors.amber, size: 20),
+                    const Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber,
+                      size: 20,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       "${state.quizAnswerStatus == QuizAnswerStatus.correct ? currentIdx + 1 : currentIdx}",
@@ -126,7 +137,6 @@ class _QuizViewState extends ConsumerState<QuizView> {
           ),
           const SizedBox(height: 16),
 
-          // Progress Bar
           if (!isVictory) ...[
             Container(
               width: double.infinity,
@@ -191,7 +201,7 @@ class _QuizViewState extends ConsumerState<QuizView> {
                 color: Colors.black38,
                 blurRadius: 8,
                 offset: const Offset(0, 4),
-              )
+              ),
             ],
           ),
           child: Text(
@@ -200,7 +210,7 @@ class _QuizViewState extends ConsumerState<QuizView> {
             style: _getPoppinsStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFF36165E), // Deep Violet
+              color: const Color(0xFF36165E),
             ),
           ),
         ),
@@ -214,7 +224,7 @@ class _QuizViewState extends ConsumerState<QuizView> {
         Column(
           children: List.generate(question.options.length, (index) {
             final optionText = question.options[index];
-            final optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+            final optionLetter = String.fromCharCode(65 + index);
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
@@ -257,15 +267,11 @@ class _QuizViewState extends ConsumerState<QuizView> {
                 color: Colors.amber.withValues(alpha: 0.4),
                 blurRadius: 20,
                 spreadRadius: 4,
-              )
+              ),
             ],
           ),
           child: const Center(
-            child: Icon(
-              Icons.stars_rounded,
-              color: Colors.amber,
-              size: 100,
-            ),
+            child: Icon(Icons.stars_rounded, color: Colors.amber, size: 100),
           ),
         ),
         const SizedBox(height: 32),
@@ -285,7 +291,7 @@ class _QuizViewState extends ConsumerState<QuizView> {
                 color: Colors.black26,
                 blurRadius: 8,
                 offset: const Offset(0, 4),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -446,10 +452,7 @@ class _OptionCardState extends State<OptionCard> {
           duration: const Duration(milliseconds: 100),
           tween: Tween<double>(begin: 1.0, end: _isPressed ? 0.96 : 1.0),
           builder: (context, scale, child) {
-            return Transform.scale(
-              scale: scale,
-              child: child,
-            );
+            return Transform.scale(scale: scale, child: child);
           },
           child: Container(
             width: double.infinity,
@@ -463,7 +466,7 @@ class _OptionCardState extends State<OptionCard> {
                   color: Colors.black12,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
-                )
+                ),
               ],
             ),
             child: Row(

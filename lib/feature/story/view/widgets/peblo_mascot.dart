@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../data/models/story_state.dart';
 
-
-//this is completely ai generated to act as a placeholder mascot
 class PebloMascot extends StatefulWidget {
   final BuddyState state;
 
@@ -13,15 +11,21 @@ class PebloMascot extends StatefulWidget {
   State<PebloMascot> createState() => _PebloMascotState();
 }
 
-class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStateMixin {
+class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin {
   late final AnimationController _floatController;
   late final Animation<double> _floatAnimation;
+
+  late final AnimationController _scanController;
+  late final Animation<double> _scanAnimation;
+
   bool _isBlinking = false;
   Timer? _blinkTimer;
 
   @override
   void initState() {
     super.initState();
+    
+    // Float controller for idle floating
     _floatController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -31,9 +35,23 @@ class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStat
       CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
 
+    // Scan controller for eye scanning while reading
+    _scanController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _scanAnimation = Tween<double>(begin: -4.0, end: 4.0).animate(
+      CurvedAnimation(parent: _scanController, curve: Curves.easeInOut),
+    );
+
+    if (widget.state == BuddyState.reading) {
+      _scanController.repeat(reverse: true);
+    }
+
     // Setup periodic blink timer
     _blinkTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      if (widget.state == BuddyState.idle || widget.state == BuddyState.talking) {
+      if (widget.state == BuddyState.idle || widget.state == BuddyState.talking || widget.state == BuddyState.reading) {
         if (mounted) {
           setState(() => _isBlinking = true);
           Future.delayed(const Duration(milliseconds: 150), () {
@@ -61,12 +79,21 @@ class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStat
         _floatController.duration = const Duration(seconds: 2);
         _floatController.repeat(reverse: true);
       }
+
+      // Handle eye scanning animations in reading state
+      if (widget.state == BuddyState.reading) {
+        _scanController.repeat(reverse: true);
+      } else {
+        _scanController.stop();
+        _scanController.reset();
+      }
     }
   }
 
   @override
   void dispose() {
     _floatController.dispose();
+    _scanController.dispose();
     _blinkTimer?.cancel();
     super.dispose();
   }
@@ -81,6 +108,9 @@ class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStat
         if (widget.state == BuddyState.happy) {
           // Bouncy jump effect
           verticalOffset = _floatAnimation.value * 1.5 - 12.0;
+        } else if (widget.state == BuddyState.sad) {
+          // Sad droop down
+          verticalOffset = _floatAnimation.value * 0.4 + 4.0;
         }
 
         return Transform.translate(
@@ -88,7 +118,12 @@ class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStat
           child: child,
         );
       },
-      child: _buildRobotBody(),
+      child: AnimatedBuilder(
+        animation: _scanAnimation,
+        builder: (context, child) {
+          return _buildRobotBody();
+        },
+      ),
     );
   }
 
@@ -117,6 +152,18 @@ class _PebloMascotState extends State<PebloMascot> with SingleTickerProviderStat
           size: const Size(16, 10),
           painter: SmilingEyePainter(color: eyeColor),
         );
+        break;
+      case BuddyState.sad:
+        eyeColor = const Color(0xFFE57373); // Soft Red
+        customEyeShape = CustomPaint(
+          size: const Size(12, 12),
+          painter: CrossEyePainter(color: eyeColor),
+        );
+        break;
+      case BuddyState.reading:
+        eyeColor = const Color(0xFF00E5FF); // Cyan
+        // Eyes look down slightly at the book and scan horizontally
+        eyeOffset = Offset(_scanAnimation.value, 3.0);
         break;
       case BuddyState.talking:
         eyeColor = const Color(0xFFE040FB); // Magenta
@@ -277,6 +324,29 @@ class SmilingEyePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant SmilingEyePainter oldDelegate) {
+    return oldDelegate.color != color;
+  }
+}
+
+class CrossEyePainter extends CustomPainter {
+  final Color color;
+
+  CrossEyePainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(const Offset(1, 1), Offset(size.width - 1, size.height - 1), paint);
+    canvas.drawLine(Offset(size.width - 1, 1), Offset(1, size.height - 1), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CrossEyePainter oldDelegate) {
     return oldDelegate.color != color;
   }
 }

@@ -101,14 +101,16 @@ class StoryViewModel extends _$StoryViewModel {
 
       state = state.copyWith(
         audioState: AudioState.playing,
-        buddyState: BuddyState.talking,
+        buddyState: BuddyState.reading,
       );
 
       _cancelSubscriptions();
 
       List<WordTimestamp> wordTimestamps = [];
 
-      _audioPlayerSubscription = player.onPlayerStateChanged.listen((playerState) {
+      _audioPlayerSubscription = player.onPlayerStateChanged.listen((
+        playerState,
+      ) {
         if (playerState == PlayerState.completed) {
           onAudioFinished();
         }
@@ -123,7 +125,9 @@ class StoryViewModel extends _$StoryViewModel {
 
       _positionSubscription = player.onPositionChanged.listen((position) {
         final totalDur = _totalDuration;
-        if (wordTimestamps.isEmpty && totalDur != null && totalDur.inMilliseconds > 0) {
+        if (wordTimestamps.isEmpty &&
+            totalDur != null &&
+            totalDur.inMilliseconds > 0) {
           wordTimestamps = _calculateWordTimestamps(story, totalDur);
         }
 
@@ -159,15 +163,19 @@ class StoryViewModel extends _$StoryViewModel {
     }
   }
 
-  //just a helper for clean code
   void onAudioFinished() {
     _cancelSubscriptions();
     state = state.copyWith(
       audioState: AudioState.completed,
       buddyState: BuddyState.idle,
-      showQuiz: true,
       activeWordIndex: -1,
     );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (state.audioState == AudioState.completed) {
+        state = state.copyWith(showQuiz: true, buddyState: BuddyState.idle);
+      }
+    });
   }
 
   //verifying quiz answer
@@ -204,12 +212,20 @@ class StoryViewModel extends _$StoryViewModel {
       //wrong answer
       state = state.copyWith(
         quizAnswerStatus: QuizAnswerStatus.wrong,
-        buddyState: BuddyState.thinking,
+        buddyState: BuddyState.sad,
       );
+      
+      // Play a custom double-vibrate pattern for incorrect answers
       HapticFeedback.vibrate();
+      Future.delayed(const Duration(milliseconds: 250), () {
+        HapticFeedback.vibrate();
+      });
 
-      Future.delayed(const Duration(milliseconds: 600), () {
-        state = state.copyWith(quizAnswerStatus: QuizAnswerStatus.idle);
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        state = state.copyWith(
+          quizAnswerStatus: QuizAnswerStatus.idle,
+          buddyState: BuddyState.idle,
+        );
       });
     }
   }
@@ -228,41 +244,51 @@ class StoryViewModel extends _$StoryViewModel {
     );
   }
 
-  List<WordTimestamp> _calculateWordTimestamps(String text, Duration actualDuration) {
-    final words = text.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+  List<WordTimestamp> _calculateWordTimestamps(
+    String text,
+    Duration actualDuration,
+  ) {
+    final words = text
+        .split(RegExp(r'\s+'))
+        .where((w) => w.isNotEmpty)
+        .toList();
     final List<double> relativeDurations = [];
-    
-    const double charWeight = 42.0;       //base ms per character
-    const double commaPause = 400.0;      //pause for commas and semicolons
-    const double sentencePause = 800.0;   //pause for periods and exclamation marks
-    const double wordGap = 80.0;          //basic space between spoken words
+
+    const double charWeight = 42; //base ms per character
+    const double commaPause = 400; //pause for commas and semicolons
+    const double sentencePause = 800; //pause for periods and exclamation marks
+    const double wordGap = 80; //basic space between spoken words
 
     for (final word in words) {
       double duration = word.length * charWeight;
-      
+
       if (word.endsWith(',') || word.endsWith(';') || word.endsWith(':')) {
         duration += commaPause;
-      } else if (word.endsWith('.') || word.endsWith('!') || word.endsWith('?')) {
+      } else if (word.endsWith('.') ||
+          word.endsWith('!') ||
+          word.endsWith('?')) {
         duration += sentencePause;
       }
       duration += wordGap;
       relativeDurations.add(duration);
     }
 
-    final double totalRelative = relativeDurations.fold(0.0, (sum, d) => sum + d);
-    if (totalRelative == 0.0) return [];
+    final double totalRelative = relativeDurations.fold(0, (sum, d) => sum + d);
+    if (totalRelative == 0) return [];
 
     final double scale = actualDuration.inMilliseconds / totalRelative;
     final List<WordTimestamp> timestamps = [];
-    double currentMs = 0.0;
+    double currentMs = 0;
 
     for (int i = 0; i < words.length; i++) {
       final double durationMs = relativeDurations[i] * scale;
-      timestamps.add(WordTimestamp(
-        index: i,
-        start: Duration(milliseconds: currentMs.round()),
-        end: Duration(milliseconds: (currentMs + durationMs).round()),
-      ));
+      timestamps.add(
+        WordTimestamp(
+          index: i,
+          start: Duration(milliseconds: currentMs.round()),
+          end: Duration(milliseconds: (currentMs + durationMs).round()),
+        ),
+      );
       currentMs += durationMs;
     }
 
@@ -275,9 +301,5 @@ class WordTimestamp {
   final Duration start;
   final Duration end;
 
-  WordTimestamp({
-    required this.index,
-    required this.start,
-    required this.end,
-  });
+  WordTimestamp({required this.index, required this.start, required this.end});
 }

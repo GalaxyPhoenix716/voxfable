@@ -8,7 +8,7 @@ enum AudioState { idle, loading, playing, completed, error }
 
 enum QuizAnswerStatus { idle, wrong, correct }
 
-enum BuddyState { idle, talking, thinking, happy }
+enum BuddyState { idle, talking, thinking, happy, reading, sad }
 
 class StoryState {
   final AudioState audioState;

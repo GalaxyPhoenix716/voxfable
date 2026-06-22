@@ -2,8 +2,10 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voxfable/feature/story/view/widgets/read_story_button.dart';
+import 'package:voxfable/feature/story/view/widgets/story_book_widget.dart';
 import '../widgets/story_overlay.dart';
 import '../widgets/quiz_view.dart';
+import '../widgets/peblo_mascot.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
 
@@ -36,7 +38,6 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen for answer correctness changes to play confetti & handle page transitions
     ref.listen<StoryState>(storyViewModelProvider, (previous, next) {
       if (next.quizAnswerStatus == QuizAnswerStatus.correct) {
         _confettiController.play();
@@ -202,8 +203,9 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
               PageView(
                 controller: _pageController,
                 scrollDirection: Axis.vertical,
+                physics:
+                    const NeverScrollableScrollPhysics(), //user canno scroll by his own
                 children: [
-                  // Page 1: Story Screen
                   SafeArea(
                     top: false,
                     child: Padding(
@@ -227,47 +229,51 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                           ),
                           const Spacer(),
 
-                          const SizedBox(height: 165),
-
-                          //book
-                          SizedBox(
-                            width: W,
-                            height: H * 0.48,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned(
-                                  top: 0,
-                                  bottom: 0,
-                                  left: 0,
-                                  width: W,
-                                  child: Stack(
-                                    children: [
-                                      Positioned.fill(
-                                        child: Image.asset(
-                                          'assets/images/book.webp',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-
-                                      //text overlay
-                                      Positioned(
-                                        top: (H * 0.4) * 0.07,
-                                        bottom: (H * 0.48) * 0.2,
-                                        left: W * 0.23,
-                                        width: W * 0.67,
-                                        child: StoryOverlay(
-                                          text:
-                                              state.storyContent?.storyText ??
-                                              "Reading story...",
-                                        ),
-                                      ),
-                                    ],
+                          // Mascot and Speech Bubble Row
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 10,
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                    color: const Color(0xFF673AB7),
+                                    width: 2.5,
+                                  ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  _getSpeechBubbleText(state),
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF36165E),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(width: 14),
+                              PebloMascot(state: state.buddyState),
+                            ],
                           ),
+
+                          const Spacer(),
+
+                          //book
+                          StoryBookWidget(W: W, H: H, state: state),
                           const Spacer(),
 
                           ReadStoryButton(ref: ref),
@@ -277,13 +283,25 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                   ),
 
                   // Page 2: Quiz Screen
-                  const SafeArea(
-                    child: QuizView(),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF1E0E4F),
+                          Color(0xFF3F1B85),
+                          Color(0xFF673AB7),
+                          Color(0xFFD1C4E9),
+                          Colors.white,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: const SafeArea(top: false, child: QuizView()),
                   ),
                 ],
               ),
 
-              // 3. Confetti Overlay
               Align(
                 alignment: Alignment.topCenter,
                 child: ConfettiWidget(
@@ -304,5 +322,27 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
         },
       ),
     );
+  }
+
+  String _getSpeechBubbleText(StoryState state) {
+    if (state.audioState == AudioState.idle) {
+      return "Hey there! Would you like to hear a story?";
+    }
+    if (state.audioState == AudioState.loading) {
+      return "Let me open the book";
+    }
+    if (state.audioState == AudioState.playing) {
+      return "Listen closely to the story!";
+    }
+    if (state.audioState == AudioState.completed) {
+      if (state.buddyState == BuddyState.happy) {
+        return "Wow, what a great story! Let's do a quiz!";
+      }
+      return "Ready for the quiz? Swipe down!";
+    }
+    if (state.audioState == AudioState.error) {
+      return "Oh no, I lost my voice! Let's try again";
+    }
+    return "Hello, reader!";
   }
 }
