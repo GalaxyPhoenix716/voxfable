@@ -25,7 +25,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
     super.initState();
     _pageController = PageController();
     _confettiController = ConfettiController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 1),
     );
   }
 
@@ -167,8 +167,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFF1E0E4F),
-                          Color(0xFF3F1B85),
+                          Color(0xFF362a96),
                           Color(0xFF673AB7),
                           Color(0xFFD1C4E9),
                           Colors.white,

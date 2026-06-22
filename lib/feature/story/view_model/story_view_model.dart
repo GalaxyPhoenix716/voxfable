@@ -179,7 +179,7 @@ class StoryViewModel extends _$StoryViewModel {
   }
 
   //verifying quiz answer
-  void submitAnswer(String selectedOption) {
+  void submitAnswer(String selectedOption) async {
     final currQuestion = state.currentQuestion;
     if (currQuestion == null) {
       return;
@@ -192,7 +192,7 @@ class StoryViewModel extends _$StoryViewModel {
         buddyState: BuddyState.happy,
         score: state.score + 25,
       );
-      HapticFeedback.heavyImpact();
+      await HapticFeedback.heavyImpact();
 
       Future.delayed(Duration(seconds: 2), () {
         //small delay (might be replaced by animation later)
@@ -218,11 +218,10 @@ class StoryViewModel extends _$StoryViewModel {
         quizAnswerStatus: QuizAnswerStatus.wrong,
         buddyState: BuddyState.sad,
       );
-      
-      // Play a custom double-vibrate pattern for incorrect answers
-      HapticFeedback.vibrate();
-      Future.delayed(const Duration(milliseconds: 250), () {
-        HapticFeedback.vibrate();
+
+      await HapticFeedback.heavyImpact();
+      Future.delayed(const Duration(milliseconds: 250), () async {
+        await HapticFeedback.vibrate();
       });
 
       Future.delayed(const Duration(milliseconds: 1500), () {
