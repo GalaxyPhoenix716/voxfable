@@ -9,6 +9,7 @@ class OptionCard extends StatefulWidget {
   final QuizAnswerStatus quizAnswerStatus;
   final bool hasSelectedAny;
   final VoidCallback onTap;
+  final int totalOptions;
 
   const OptionCard({
     super.key,
@@ -19,6 +20,7 @@ class OptionCard extends StatefulWidget {
     required this.quizAnswerStatus,
     required this.hasSelectedAny,
     required this.onTap,
+    required this.totalOptions,
   });
 
   @override
@@ -34,12 +36,35 @@ class _OptionCardState extends State<OptionCard> {
     final emoji = emojis[widget.index % emojis.length];
 
     final badgeColors = [
-      const Color(0xFFFFE0B2),
-      const Color(0xFFD7CCC8),
-      const Color(0xFFC8E6C9),
-      const Color(0xFFF8BBD0),
+      const Color(0xFFFFE0B2), // Light Orange
+      const Color(0xFFD7CCC8), // Light Brown
+      const Color(0xFFC8E6C9), // Light Green
+      const Color(0xFFF8BBD0), // Light Pink
     ];
     final badgeBgColor = badgeColors[widget.index % badgeColors.length];
+
+    final totalOpts = widget.totalOptions;
+    final double verticalPadding;
+    final double badgeSize;
+    final double emojiSize;
+    final double fontSize;
+
+    if (totalOpts <= 2) {
+      verticalPadding = 22.0;
+      badgeSize = 44.0;
+      emojiSize = 22.0;
+      fontSize = 18.0;
+    } else if (totalOpts == 3) {
+      verticalPadding = 16.0;
+      badgeSize = 36.0;
+      emojiSize = 18.0;
+      fontSize = 16.0;
+    } else {
+      verticalPadding = 10.0;
+      badgeSize = 30.0;
+      emojiSize = 16.0;
+      fontSize = 14.0;
+    }
 
     Color bgColor = Colors.white;
     Color borderColor = const Color(0xFFEDE7F6);
@@ -56,13 +81,17 @@ class _OptionCardState extends State<OptionCard> {
         borderColor = const Color(0xFF6F2BC2);
         textColor = Colors.white;
         rightIcon = Container(
-          width: 24,
-          height: 24,
+          width: badgeSize - 6,
+          height: badgeSize - 6,
           decoration: const BoxDecoration(
             color: Color(0xFF4CAF50),
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.check_rounded, color: Colors.white, size: 16),
+          child: Icon(
+            Icons.check_rounded,
+            color: Colors.white,
+            size: badgeSize - 14,
+          ),
         );
       } else if (widget.quizAnswerStatus == QuizAnswerStatus.wrong &&
           widget.isSelected) {
@@ -70,13 +99,17 @@ class _OptionCardState extends State<OptionCard> {
         borderColor = const Color(0xFFF44336);
         textColor = const Color(0xFFB71C1C);
         rightIcon = Container(
-          width: 24,
-          height: 24,
+          width: badgeSize - 6,
+          height: badgeSize - 6,
           decoration: const BoxDecoration(
             color: Color(0xFFF44336),
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.close_rounded, color: Colors.white, size: 16),
+          child: Icon(
+            Icons.close_rounded,
+            color: Colors.white,
+            size: badgeSize - 14,
+          ),
         );
       } else {
         opacity = 0.45;
@@ -112,7 +145,10 @@ class _OptionCardState extends State<OptionCard> {
           },
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: verticalPadding,
+            ),
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(20),
@@ -129,14 +165,14 @@ class _OptionCardState extends State<OptionCard> {
               children: [
                 // Badge circle with emoji
                 Container(
-                  width: 30,
-                  height: 30,
+                  width: badgeSize,
+                  height: badgeSize,
                   decoration: BoxDecoration(
                     color: badgeBgColor,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Text(emoji, style: const TextStyle(fontSize: 16)),
+                    child: Text(emoji, style: TextStyle(fontSize: emojiSize)),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -146,7 +182,7 @@ class _OptionCardState extends State<OptionCard> {
                     widget.optionText,
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 14,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.bold,
                       color: textColor,
                     ),

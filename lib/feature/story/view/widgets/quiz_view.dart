@@ -7,6 +7,7 @@ import 'package:voxfable/feature/story/view/widgets/quiz_bottom_progress.dart';
 import 'package:voxfable/feature/story/view/widgets/quiz_mascot_header.dart';
 import '../../data/models/story_state.dart';
 import '../../view_model/story_view_model.dart';
+import 'peblo_mascot.dart';
 
 class QuizView extends ConsumerStatefulWidget {
   const QuizView({super.key});
@@ -201,8 +202,8 @@ class _QuizViewState extends ConsumerState<QuizView>
             isDisabled: true,
             numberOfCardsDisplayed: questions.length > 2 ? 3 : questions.length,
             padding: const EdgeInsets.only(bottom: 28, left: 4, right: 4),
-            backCardOffset: const Offset(0, 25),
-            scale: 0.80,
+            backCardOffset: const Offset(0, 18),
+            scale: 0.92,
             cardBuilder: (context, index, percentX, percentY) {
               final question = questions[index];
               return _buildQuestionCard(
@@ -292,18 +293,19 @@ class _QuizViewState extends ConsumerState<QuizView>
           const SizedBox(height: 10),
 
           if (isActive)
-            Column(
-              children: List.generate(question.options.length, (optIdx) {
-                final optionText = question.options[optIdx];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: OptionCard(
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(question.options.length, (optIdx) {
+                  final optionText = question.options[optIdx];
+                  return OptionCard(
                     index: optIdx,
                     optionText: optionText,
                     isSelected: _selectedOption == optionText,
                     isCorrectAnswer: optionText == question.answer,
                     quizAnswerStatus: state.quizAnswerStatus,
                     hasSelectedAny: _selectedOption != null,
+                    totalOptions: question.options.length,
                     onTap: () {
                       if (_selectedOption == null) {
                         setState(() {
@@ -312,17 +314,25 @@ class _QuizViewState extends ConsumerState<QuizView>
                         notifier.submitAnswer(optionText);
                       }
                     },
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             )
           else
-            Column(
-              children: List.generate(question.options.length, (optIdx) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
-                    height: 50,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(question.options.length, (optIdx) {
+                  final totalOpts = question.options.length;
+                  final double verticalPadding = totalOpts <= 2
+                      ? 22.0
+                      : (totalOpts == 3 ? 16.0 : 10.0);
+                  final double badgeSize = totalOpts <= 2
+                      ? 44.0
+                      : (totalOpts == 3 ? 36.0 : 30.0);
+
+                  return Container(
+                    height: badgeSize + (verticalPadding * 2),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.4),
@@ -332,9 +342,9 @@ class _QuizViewState extends ConsumerState<QuizView>
                         width: 1.5,
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
         ],
       ),

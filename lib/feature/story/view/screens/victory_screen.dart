@@ -5,6 +5,7 @@ import 'package:voxfable/feature/story/view_model/story_view_model.dart';
 
 class VictoryScreen extends StatelessWidget {
   final StoryViewModel notifier;
+
   const VictoryScreen({super.key, required this.notifier});
 
   TextStyle _getPoppinsStyle({
@@ -26,6 +27,7 @@ class VictoryScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(height: 40),
+        // Big Glowing Trophy/Star Container
         Container(
           width: 140,
           height: 140,
@@ -46,11 +48,10 @@ class VictoryScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 32),
-
+        // Mascot in happy state
         PebloMascot(state: BuddyState.happy),
-
         const SizedBox(height: 32),
-
+        // Congratulatory Text Card
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(24),
@@ -99,7 +100,10 @@ class VictoryScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               gradient: const LinearGradient(
-                colors: [Color(0xFFFFD54F), Color(0xFFFFB300)],
+                colors: [
+                  Color(0xFFFFD54F), // Bright Amber
+                  Color(0xFFFFB300), // Dark Amber
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
