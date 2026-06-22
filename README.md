@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo/voxfable_logo.png" alt="VoxFable Logo" width="380">
+</p>
+
 # VoxFable 📖✨
 
 VoxFable is an AI-powered Interactive Story Buddy & Quiz mobile application built with Flutter, designed for children aged 6–10. The app blends rich audio narration, real-time word-by-word visual highlighting, haptic feedback, and a responsive animated mascot to create an engaging, gamified learning experience.
