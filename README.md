@@ -145,6 +145,7 @@ voxfable/
 │   ├── core/
 │   │   ├── audio/            # AudioCacheService for hashing and local audio files caching
 │   │   └── network/          # ElevenLabsService API client
+│   │   └── theme/            # Contsants files for colors and paddings
 │   ├── feature/
 │   │   └── story/
 │   │       ├── data/
