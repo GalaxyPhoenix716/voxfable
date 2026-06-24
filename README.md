@@ -120,8 +120,6 @@ I profiled the application using Flutter DevTools Performance overlay in `--rele
 | **Average Raster Thread Frame Time** | 22.1 ms             | **7.1 ms**         |
 | **Peak Jank Spike**                  | 35.8 ms             | **11.2 ms**        |
 
-_(Frame-timing DevTools screenshot placeholder here)_
-
 ---
 
 ### 7. AI Usage & Judgment
