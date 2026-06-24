@@ -33,16 +33,12 @@ Watch the full end-to-end flow walkthrough in action (covering audio playing, tr
   - **Why Flutter?** I chose Flutter because it is a cross-platform framework and I am highly proficient in it. Moreover, the performance (direct compilation to native machine code), development speed, and build/release turnaround times are exceptionally good.
   - **State Management**: **Riverpod** (`flutter_riverpod` & `riverpod_generator` with code generation).
     - **Why Riverpod?** I selected Riverpod because it is more robust, compile-time safe, and enterprise-friendly than GetX and Provider, while being far less boilerplate-heavy ("less templaty") than BLoC.
-    - **Additional Human Advantages**:
-      - It does away with dependency on the `BuildContext` tree for lookups, making providers globally accessible and easy to test.
-      - Excellent modifiers (`.select`, `.listen`, `.autoDispose`) that perfectly match our dynamic event listeners (such as mapping word highlighting timings and automatic cleanup of audio players/subscriptions on widget disposal).
-      - Strongly typed notifier states allow clean separation between asynchronous operations (audio fetching) and UI states (quiz deck swipes).
 
 ---
 
 ### 2. Transition State Management (Audio to Quiz)
 
-To guide children through the narrative before quiz engagement, we enforce a strict transition state:
+To guide children through the narrative before quiz engagement, I enforced a strict transition state:
 
 - **State Representation**: The view model (`StoryViewModel`) maintains the `StoryState` containing `audioState` (idle, loading, playing, completed, error) and a boolean flag `showQuiz`.
 - **State Detection**: A listener in the ViewModel watches the native `AudioPlayer.onPlayerStateChanged` stream. Once the playback finishes, the system dispatches an `AudioState.completed` status, which triggers `showQuiz` to become `true` after a brief 2-second narrative cushion.
