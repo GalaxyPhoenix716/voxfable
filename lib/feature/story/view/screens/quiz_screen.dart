@@ -67,7 +67,6 @@ class _QuizViewState extends ConsumerState<QuizView>
     final state = ref.watch(storyViewModelProvider);
     final notifier = ref.read(storyViewModelProvider.notifier);
 
-    // Sync swiper card swipe on next question
     ref.listen<StoryState>(storyViewModelProvider, (previous, next) {
       if (next.currentQuestionIndex > (previous?.currentQuestionIndex ?? 0)) {
         WidgetsBinding.instance.addPostFrameCallback((_) {

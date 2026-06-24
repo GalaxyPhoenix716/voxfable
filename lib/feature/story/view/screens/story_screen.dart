@@ -82,8 +82,8 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
               PageView(
                 controller: _pageController,
                 scrollDirection: Axis.vertical,
-                // physics:
-                //     const NeverScrollableScrollPhysics(), //user cannot scroll by his own
+                physics:
+                    const NeverScrollableScrollPhysics(), //user cannot scroll by his own
                 children: [
                   SafeArea(
                     top: false,
@@ -94,7 +94,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                       ),
                       child: Column(
                         children: [
-                          // Header: Peblo Logo & Profile
+                          //header
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -106,9 +106,10 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                               ),
                             ],
                           ),
+
                           const Spacer(),
 
-                          // Mascot and Speech Bubble Row
+                          //mascot
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -165,10 +166,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.white,
-                        ],
+                        colors: [Colors.transparent, Colors.white],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
