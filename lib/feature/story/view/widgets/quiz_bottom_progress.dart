@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
 
 class QuizBottomProgress extends StatelessWidget {
   final int currentQuestionIndex;
@@ -39,7 +40,7 @@ class QuizBottomProgress extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.6,
           height: 10,
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1035),
+            color: VoxfableColors.darkScreenBg,
             borderRadius: BorderRadius.circular(5),
           ),
           child: FractionallySizedBox(
@@ -49,8 +50,8 @@ class QuizBottomProgress extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFF9E47FF), // Bright purple
-                    Color(0xFF00E5FF), // Cyan glow
+                    VoxfableColors.accentPurple, // Bright purple
+                    VoxfableColors.eyeCyan, // Cyan glow
                   ],
                 ),
                 borderRadius: BorderRadius.circular(5),

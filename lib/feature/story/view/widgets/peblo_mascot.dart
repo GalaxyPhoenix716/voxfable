@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
 import '../../data/repos/story_state.dart';
 
 class PebloMascot extends StatefulWidget {
@@ -129,7 +130,7 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
 
   Widget _buildRobotBody() {
     // Styling values based on current state
-    Color eyeColor = const Color(0xFF00E5FF); // Bright Cyan
+    Color eyeColor = VoxfableColors.eyeCyan; // Bright Cyan
     double eyeHeightScale = 1.0;
     double eyeWidthScale = 1.0;
     Offset eyeOffset = Offset.zero;
@@ -141,32 +142,32 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
 
     switch (widget.state) {
       case BuddyState.thinking:
-        eyeColor = const Color(0xFFFFD54F); // Yellow
+        eyeColor = VoxfableColors.eyeYellow; // Yellow
         eyeHeightScale = 0.6;
         eyeWidthScale = 0.6;
         eyeOffset = const Offset(0, -4); // Look up
         break;
       case BuddyState.happy:
-        eyeColor = const Color(0xFF66BB6A); // Green
+        eyeColor = VoxfableColors.eyeGreen; // Green
         customEyeShape = CustomPaint(
           size: const Size(16, 10),
           painter: SmilingEyePainter(color: eyeColor),
         );
         break;
       case BuddyState.sad:
-        eyeColor = const Color(0xFFE57373); // Soft Red
+        eyeColor = VoxfableColors.eyeRed; // Soft Red
         customEyeShape = CustomPaint(
           size: const Size(12, 12),
           painter: CrossEyePainter(color: eyeColor),
         );
         break;
       case BuddyState.reading:
-        eyeColor = const Color(0xFF00E5FF); // Cyan
+        eyeColor = VoxfableColors.eyeCyan; // Cyan
         // Eyes look down slightly at the book and scan horizontally
         eyeOffset = Offset(_scanAnimation.value, 3.0);
         break;
       case BuddyState.talking:
-        eyeColor = const Color(0xFFE040FB); // Magenta
+        eyeColor = VoxfableColors.eyeMagenta; // Magenta
         break;
       case BuddyState.idle:
         break;
@@ -183,7 +184,7 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
             gradient: const LinearGradient(
               colors: [
                 Color(0xFF9E77F3), // Light metallic purple
-                Color(0xFF673AB7), // Metallic deep purple
+                VoxfableColors.primaryPurple, // Metallic deep purple
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -192,7 +193,7 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
             border: Border.all(color: const Color(0xFFB39DDB), width: 2),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF36165E).withValues(alpha: 0.25),
+                color: VoxfableColors.deepViolet.withValues(alpha: 0.25),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               )
@@ -204,9 +205,9 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
               width: 68,
               height: 48,
               decoration: BoxDecoration(
-                color: const Color(0xFF1E1035),
+                color: VoxfableColors.darkScreenBg,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xFF311B92), width: 1.5),
+                border: Border.all(color: VoxfableColors.darkScreenBorder, width: 1.5),
               ),
               child: Stack(
                 children: [
@@ -242,7 +243,7 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
           width: 14,
           height: 8,
           decoration: BoxDecoration(
-            color: const Color(0xFF7E57C2),
+            color: VoxfableColors.neckConnector,
             borderRadius: BorderRadius.circular(3),
           ),
         ),
@@ -255,7 +256,7 @@ class _PebloMascotState extends State<PebloMascot> with TickerProviderStateMixin
             borderRadius: const BorderRadius.all(Radius.elliptical(22, 3)),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF36165E).withValues(alpha: 0.15),
+                color: VoxfableColors.deepViolet.withValues(alpha: 0.15),
                 blurRadius: 4,
                 spreadRadius: 1,
               )

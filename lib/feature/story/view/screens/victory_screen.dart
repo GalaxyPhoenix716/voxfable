@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:voxfable/feature/story/data/repos/story_state.dart';
 import 'package:voxfable/feature/story/view/widgets/peblo_mascot.dart';
 import 'package:voxfable/feature/story/view_model/story_view_model.dart';
@@ -32,7 +34,7 @@ class VictoryScreen extends StatelessWidget {
           width: 140,
           height: 140,
           decoration: BoxDecoration(
-            color: const Color(0xFF36165E),
+            color: VoxfableColors.deepViolet,
             shape: BoxShape.circle,
             border: Border.all(color: Colors.amber, width: 4),
             boxShadow: [
@@ -54,9 +56,9 @@ class VictoryScreen extends StatelessWidget {
         // Congratulatory Text Card
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(24),
+          padding: VoxfablePaddings.victoryCardPadding,
           decoration: BoxDecoration(
-            color: const Color(0xFFF3E5F5),
+            color: VoxfableColors.primaryBackground,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(color: Colors.amber, width: 3),
             boxShadow: const [
@@ -74,7 +76,7 @@ class VictoryScreen extends StatelessWidget {
                 style: _getPoppinsStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF36165E),
+                  color: VoxfableColors.deepViolet,
                 ),
               ),
               const SizedBox(height: 10),
@@ -84,7 +86,7 @@ class VictoryScreen extends StatelessWidget {
                 style: _getPoppinsStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF36165E).withValues(alpha: 0.8),
+                  color: VoxfableColors.deepViolet.withValues(alpha: 0.8),
                 ),
               ),
             ],
@@ -101,15 +103,15 @@ class VictoryScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
               gradient: const LinearGradient(
                 colors: [
-                  Color(0xFFFFD54F), // Bright Amber
-                  Color(0xFFFFB300), // Dark Amber
+                  VoxfableColors.victoryGoldStart, // Bright Amber
+                  VoxfableColors.victoryGoldEnd, // Dark Amber
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF36165E).withValues(alpha: 0.3),
+                  color: VoxfableColors.deepViolet.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -121,7 +123,7 @@ class VictoryScreen extends StatelessWidget {
                 style: _getPoppinsStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
-                  color: const Color(0xFF36165E),
+                  color: VoxfableColors.deepViolet,
                 ),
               ),
             ),

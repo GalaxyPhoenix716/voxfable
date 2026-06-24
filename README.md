@@ -95,7 +95,7 @@ To ensure the app maintains a solid **60 FPS** (under 16.6ms frame timing) even 
 I profiled the application using Flutter DevTools Performance overlay in `--release` mode. I monitored frame drops (jank) during:
 
 1. Shaking of the quiz card on incorrect selections.
-2. Concurrent animations of the Rive mascot while audio playback highlighted text.
+2. Concurrent animations of the mascot while audio playback highlighted text.
 3. Particle effects during confetti blasting.
 
 #### What I Changed & Optimized

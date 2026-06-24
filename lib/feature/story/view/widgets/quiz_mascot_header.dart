@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:voxfable/feature/story/data/repos/story_state.dart';
 import 'package:voxfable/feature/story/view/widgets/peblo_mascot.dart';
 
@@ -22,7 +24,7 @@ class QuizMascotHeader extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: VoxfablePaddings.speechBubblePadding,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
@@ -43,14 +45,14 @@ class QuizMascotHeader extends StatelessWidget {
                       fontFamily: 'Poppins',
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF36165E),
+                      color: VoxfableColors.deepViolet,
                     ),
                   ),
                 ),
                 SizedBox(width: 8),
                 Icon(
                   Icons.volume_up_rounded,
-                  color: Color(0xFF6F2BC2),
+                  color: VoxfableColors.deepPurple,
                   size: 18,
                 ),
               ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:voxfable/feature/story/view/screens/victory_screen.dart';
@@ -98,7 +100,7 @@ class _QuizViewState extends ConsumerState<QuizView>
         _selectedOption == null;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+      padding: VoxfablePaddings.rootPadding,
       child: Column(
         children: [
           Row(
@@ -122,17 +124,14 @@ class _QuizViewState extends ConsumerState<QuizView>
                   ),
                   child: const Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: Color(0xFF36165E),
+                    color: VoxfableColors.deepViolet,
                     size: 20,
                   ),
                 ),
               ),
 
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding: VoxfablePaddings.scorePillPadding,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -158,7 +157,7 @@ class _QuizViewState extends ConsumerState<QuizView>
                       style: _getPoppinsStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF36165E),
+                        color: VoxfableColors.deepViolet,
                       ),
                     ),
                   ],
@@ -199,7 +198,7 @@ class _QuizViewState extends ConsumerState<QuizView>
             cardsCount: questions.length,
             isDisabled: true,
             numberOfCardsDisplayed: questions.length > 2 ? 3 : questions.length,
-            padding: const EdgeInsets.only(bottom: 28, left: 4, right: 4),
+            padding: VoxfablePaddings.swiperPadding,
             backCardOffset: const Offset(0, 18),
             scale: 0.92,
             cardBuilder: (context, index, percentX, percentY) {
@@ -235,14 +234,14 @@ class _QuizViewState extends ConsumerState<QuizView>
 
     final cardContent = Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: VoxfablePaddings.cardPadding,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : const Color(0xFFF3E5F5),
+        color: isActive ? Colors.white : VoxfableColors.primaryBackground,
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
           color: isActive
-              ? const Color(0xFF6F2BC2).withValues(alpha: 0.15)
-              : const Color(0xFFE0B0FF),
+              ? VoxfableColors.deepPurple.withValues(alpha: 0.15)
+              : VoxfableColors.lightPurpleBorder,
           width: 1.5,
         ),
         boxShadow: [
@@ -256,11 +255,11 @@ class _QuizViewState extends ConsumerState<QuizView>
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: VoxfablePaddings.questionPillPadding,
             decoration: BoxDecoration(
               color: isActive
-                  ? const Color(0xFFEDE7F6)
-                  : const Color(0xFFD1C4E9).withValues(alpha: 0.5),
+                  ? VoxfableColors.lightLavenderBg
+                  : VoxfableColors.lavenderShadow.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -270,8 +269,8 @@ class _QuizViewState extends ConsumerState<QuizView>
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: isActive
-                    ? const Color(0xFF6F2BC2)
-                    : const Color(0xFF6F2BC2).withValues(alpha: 0.6),
+                    ? VoxfableColors.deepPurple
+                    : VoxfableColors.deepPurple.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -284,8 +283,8 @@ class _QuizViewState extends ConsumerState<QuizView>
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: isActive
-                  ? const Color(0xFF36165E)
-                  : const Color(0xFF36165E).withValues(alpha: 0.5),
+                  ? VoxfableColors.deepViolet
+                  : VoxfableColors.deepViolet.withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 10),
@@ -336,7 +335,7 @@ class _QuizViewState extends ConsumerState<QuizView>
                       color: Colors.white.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFFEDE7F6).withValues(alpha: 0.6),
+                        color: VoxfableColors.lightLavenderBg.withValues(alpha: 0.6),
                         width: 1.5,
                       ),
                     ),

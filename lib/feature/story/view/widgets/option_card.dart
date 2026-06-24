@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:voxfable/feature/story/data/repos/story_state.dart';
 
 class OptionCard extends StatefulWidget {
@@ -36,10 +38,10 @@ class _OptionCardState extends State<OptionCard> {
     final emoji = emojis[widget.index % emojis.length];
 
     final badgeColors = [
-      const Color(0xFFFFE0B2), // Light Orange
-      const Color(0xFFD7CCC8), // Light Brown
-      const Color(0xFFC8E6C9), // Light Green
-      const Color(0xFFF8BBD0), // Light Pink
+      VoxfableColors.badgeOrange, // Light Orange
+      VoxfableColors.badgeBrown, // Light Brown
+      VoxfableColors.badgeGreen, // Light Green
+      VoxfableColors.badgePink, // Light Pink
     ];
     final badgeBgColor = badgeColors[widget.index % badgeColors.length];
 
@@ -50,25 +52,25 @@ class _OptionCardState extends State<OptionCard> {
     final double fontSize;
 
     if (totalOpts <= 2) {
-      verticalPadding = 22.0;
+      verticalPadding = VoxfablePaddings.optionVerticalMax;
       badgeSize = 44.0;
       emojiSize = 22.0;
       fontSize = 18.0;
     } else if (totalOpts == 3) {
-      verticalPadding = 16.0;
+      verticalPadding = VoxfablePaddings.optionVerticalMid;
       badgeSize = 36.0;
       emojiSize = 18.0;
       fontSize = 16.0;
     } else {
-      verticalPadding = 10.0;
+      verticalPadding = VoxfablePaddings.optionVerticalMin;
       badgeSize = 30.0;
       emojiSize = 16.0;
       fontSize = 14.0;
     }
 
     Color bgColor = Colors.white;
-    Color borderColor = const Color(0xFFEDE7F6);
-    Color textColor = const Color(0xFF36165E);
+    Color borderColor = VoxfableColors.lightLavenderBg;
+    Color textColor = VoxfableColors.deepViolet;
     Widget? rightIcon;
     double opacity = 1.0;
 
@@ -77,14 +79,14 @@ class _OptionCardState extends State<OptionCard> {
     if (hasFeedback) {
       if (widget.quizAnswerStatus == QuizAnswerStatus.correct &&
           widget.isCorrectAnswer) {
-        bgColor = const Color(0xFF6F2BC2);
-        borderColor = const Color(0xFF6F2BC2);
+        bgColor = VoxfableColors.deepPurple;
+        borderColor = VoxfableColors.deepPurple;
         textColor = Colors.white;
         rightIcon = Container(
           width: badgeSize - 6,
           height: badgeSize - 6,
           decoration: const BoxDecoration(
-            color: Color(0xFF4CAF50),
+            color: VoxfableColors.correctGreen,
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -95,14 +97,14 @@ class _OptionCardState extends State<OptionCard> {
         );
       } else if (widget.quizAnswerStatus == QuizAnswerStatus.wrong &&
           widget.isSelected) {
-        bgColor = const Color(0xFFFFEBEE);
-        borderColor = const Color(0xFFF44336);
-        textColor = const Color(0xFFB71C1C);
+        bgColor = VoxfableColors.wrongRedBg;
+        borderColor = VoxfableColors.wrongRedBorder;
+        textColor = VoxfableColors.wrongRedText;
         rightIcon = Container(
           width: badgeSize - 6,
           height: badgeSize - 6,
           decoration: const BoxDecoration(
-            color: Color(0xFFF44336),
+            color: VoxfableColors.wrongRedBorder,
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -146,7 +148,7 @@ class _OptionCardState extends State<OptionCard> {
           child: Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: VoxfablePaddings.optionHorizontal,
               vertical: verticalPadding,
             ),
             decoration: BoxDecoration(

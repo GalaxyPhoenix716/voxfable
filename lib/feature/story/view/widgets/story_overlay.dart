@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repos/story_state.dart';
 import '../../view_model/story_view_model.dart';
@@ -47,13 +49,13 @@ class _StoryOverlayState extends ConsumerState<StoryOverlay> {
       fontFamily: 'Poppins',
       fontSize: widget.fontSize,
       fontWeight: FontWeight.w500,
-      color: const Color(0xFF36165E), // Deep Violet
+      color: VoxfableColors.deepViolet,
     );
   }
 
   TextStyle _getHighlightStyle(TextStyle normal) {
     return normal.copyWith(
-      color: const Color.fromARGB(255, 194, 43, 189),
+      color: VoxfableColors.textHighlight,
       fontWeight: FontWeight.w800,
     );
   }
@@ -199,7 +201,7 @@ class _StoryOverlayState extends ConsumerState<StoryOverlay> {
             ..rotateZ(widget.rotationZ), // Z-axis rotation/tilt
           alignment: Alignment.centerLeft,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            padding: VoxfablePaddings.overlayPadding,
             child: ScrollConfiguration(
               behavior: ScrollConfiguration.of(
                 context,

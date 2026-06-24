@@ -1,6 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:voxfable/core/theme/colors.dart';
+import 'package:voxfable/core/theme/paddings.dart';
 import 'package:voxfable/feature/story/view/widgets/parallax_background.dart';
 import 'package:voxfable/feature/story/view/widgets/read_story_button.dart';
 import 'package:voxfable/feature/story/view/widgets/story_book_widget.dart';
@@ -67,7 +69,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
     final state = ref.watch(storyViewModelProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF3E5F5),
+      backgroundColor: VoxfableColors.primaryBackground,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final H = constraints.maxHeight;
@@ -88,10 +90,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                   SafeArea(
                     top: false,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 12,
-                      ),
+                      padding: VoxfablePaddings.screenPadding,
                       child: Column(
                         children: [
                           //header
@@ -115,16 +114,13 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
-                                ),
+                                padding: VoxfablePaddings.speechBubblePadding,
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(18),
                                   border: Border.all(
-                                    color: const Color(0xFF673AB7),
+                                    color: VoxfableColors.primaryPurple,
                                     width: 2.5,
                                   ),
                                   boxShadow: const [
@@ -141,7 +137,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                                     fontFamily: 'Poppins',
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF36165E),
+                                    color: VoxfableColors.deepViolet,
                                   ),
                                 ),
                               ),
