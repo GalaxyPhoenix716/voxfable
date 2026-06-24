@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voxfable/feature/story/view/widgets/parallax_background.dart';
 import 'package:voxfable/feature/story/view/widgets/read_story_button.dart';
 import 'package:voxfable/feature/story/view/widgets/story_book_widget.dart';
-import '../widgets/quiz_view.dart';
+import 'quiz_screen.dart';
 import '../widgets/peblo_mascot.dart';
 import '../../data/repos/story_state.dart';
 import '../../view_model/story_view_model.dart';
@@ -47,7 +47,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
         if (_pageController.hasClients) {
           _pageController.animateToPage(
             1,
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(seconds: 2),
             curve: Curves.easeInOutCubic,
           );
         }
@@ -57,7 +57,7 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
         if (_pageController.hasClients) {
           _pageController.animateToPage(
             0,
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(seconds: 2),
             curve: Curves.easeInOutCubic,
           );
         }
@@ -82,8 +82,8 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
               PageView(
                 controller: _pageController,
                 scrollDirection: Axis.vertical,
-                physics:
-                    const NeverScrollableScrollPhysics(), //user canno scroll by his own
+                // physics:
+                //     const NeverScrollableScrollPhysics(), //user cannot scroll by his own
                 children: [
                   SafeArea(
                     top: false,
@@ -162,14 +162,11 @@ class _StoryScreenState extends ConsumerState<StoryScreen> {
                     ),
                   ),
 
-                  // Page 2: Quiz Screen
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFF362a96),
-                          Color(0xFF673AB7),
-                          Color(0xFFD1C4E9),
+                          Colors.transparent,
                           Colors.white,
                         ],
                         begin: Alignment.topCenter,
